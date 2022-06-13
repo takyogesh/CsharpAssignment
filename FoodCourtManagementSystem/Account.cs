@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using newt
+using Newtonsoft.Json;
 
 namespace FoodCourtManagementSystem
 {
@@ -33,6 +33,7 @@ namespace FoodCourtManagementSystem
                 if (adminList == null)
                 {
                     adminList.Add(new admin(id, name, ph, pass));
+                    ReadWrite.WriteToFile("AdminList.json", JsonConvert.SerializeObject(adminList));
                 }
                 else
                 {
@@ -40,7 +41,10 @@ namespace FoodCourtManagementSystem
                     {
                         if (list.id != id)
                         {
-                            adminList.Add(new admin(id, name, ph, pass));
+                            String oldFile = ReadWrite.ReadFromFile("AdminList.json");
+                            List<admin> updateAdminList = JsonConvert.DeserializeObject<List<admin>>(oldFile);
+                            updateAdminList.Add(new admin(id, name, ph, pass));
+                            ReadWrite.WriteToFile("AdminList.json", JsonConvert.SerializeObject(updateAdminList));
                         }
                         else
                             Console.WriteLine("admin already exist");
@@ -68,6 +72,7 @@ namespace FoodCourtManagementSystem
                 if (adminList == null)
                 {
                     customerList.Add(new customer(id, name, ph, pass));
+                    ReadWrite.WriteToFile("CustomerList.json", JsonConvert.SerializeObject(customerList));
                 }
                 else
                 {
@@ -75,7 +80,11 @@ namespace FoodCourtManagementSystem
                     {
                         if (list.id != id)
                         {
-                            customerList.Add(new customer(id, name, ph, pass));
+                            String oldFile = ReadWrite.ReadFromFile("CustomerList.json");
+                            List<customer> updateCustomerList = JsonConvert.DeserializeObject<List<customer>>(oldFile);
+                            updateCustomerList.Add(new customer(id, name, ph, pass));
+                            ReadWrite.WriteToFile("AdminList.json", JsonConvert.SerializeObject(updateCustomerList));
+
                         }
                         else
                             Console.WriteLine("customer already exist");
@@ -94,11 +103,7 @@ namespace FoodCourtManagementSystem
             {
                 return File.ReadAllText(fileName);
             }
-            private static string SerializeData(List<T> list)
-            {
-                string result = JsonConvert.SerializeObject(list);
-                return result;
-            }
+          
         }
     }
 }
