@@ -16,9 +16,7 @@ namespace EntityFramework.Data
         public Employee GetEmplpoyeeById(int employeeId)
         {
             // Tracking not required
-            var employee = demoDbContext.Employees.Where(x => x.ID == employeeId)
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync().Result;
+            var employee = demoDbContext.Employees.Where(x => x.ID == employeeId).AsNoTracking().FirstOrDefault();
 
             if (employee == null)
             {
