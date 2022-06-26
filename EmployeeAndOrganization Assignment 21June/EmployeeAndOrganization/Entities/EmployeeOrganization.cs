@@ -12,5 +12,10 @@ namespace EmployeeAndOrganization.Entities
         public string OrganizationName { get; set; }
         public Employee Employee { get; set; }
 
+        public override string ToString()
+        {
+            return "-" + OrganizationName + "";
+        }
+
     }
 }

@@ -15,5 +15,9 @@ namespace EmployeeAndOrganization.Entities
         [Column(TypeName = "varchar(150)")]
         public string? Address { get; set; }
         public ICollection<EmployeeOrganization> EmployeeOrganizations { get; set; }
+        public override string ToString()
+        {
+            return "Name : " + Name + "\tAge : " + Age + "\tAddress : " + Address + "";
+        }
     }
 }

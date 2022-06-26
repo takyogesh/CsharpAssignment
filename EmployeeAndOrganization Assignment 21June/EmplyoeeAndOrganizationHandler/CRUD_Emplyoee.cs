@@ -28,13 +28,11 @@ namespace EmplyoeeAndOrganizationHandler
             var emp = DbContextFile.Employees.Where(empl => empl.Id == Id).Include(e => e.EmployeeOrganizations).FirstOrDefault();
             if (emp != null)
             {
-                Console.WriteLine("Employe Name   :" + emp.Name);
-                Console.WriteLine("Employee Age   :" + emp.Age);
-                Console.WriteLine("Employee Address:" + emp.Address);
-                Console.WriteLine("==================================");
+                Console.WriteLine(emp);
+                Console.WriteLine("Orgnizations ");
                 foreach (EmployeeOrganization employeeOrganizations in emp.EmployeeOrganizations)
                 {
-                    Console.WriteLine("Employee Organization  :" + employeeOrganizations.OrganizationName);
+                    Console.WriteLine(employeeOrganizations);
                 }
             }
             else
@@ -49,15 +47,12 @@ namespace EmplyoeeAndOrganizationHandler
             {
                 foreach (Employee emp in empl)
                 {
-                    Console.WriteLine("Employe Name   :" + emp.Name);
-                    Console.WriteLine("Employee Age   :" + emp.Age);
-                    Console.WriteLine("Employee Address:" + emp.Address);
-                    Console.WriteLine("===============Orgnizations=================");
+                    Console.WriteLine(emp+"\t");
+                    Console.WriteLine("Orgnizations ");
                     foreach (EmployeeOrganization employeeOrganizations in emp.EmployeeOrganizations)
                     {
-                        Console.WriteLine("Employee Organization  :" + employeeOrganizations.OrganizationName);
+                        Console.WriteLine(employeeOrganizations);
                     }
-                    Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++");
                     Console.WriteLine();
                 }
             }
