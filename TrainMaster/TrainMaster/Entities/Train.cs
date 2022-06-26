@@ -19,9 +19,6 @@ namespace TrainMaster.Entities
         public TimeSpan? JourneyEndTime { get; set; }
 
         public ICollection<TrainSchedule>? trainSchedules { get; set; }
-        public override string ToString()
-        {
-            return "ID : " + TrainNo + " Name : " + TrainName + " Address : " + FromStation + " " + ToStation + "";
-        }
+
     }
 }

@@ -1,6 +1,5 @@
-﻿
-using TrainMaster;
-using TrainMaster.Entities;
+﻿using TrainMaster;
+using TrainMaster.Models;
 
 namespace TrainMasterHandler
 {
@@ -8,10 +7,10 @@ namespace TrainMasterHandler
     {
         public static void Main(string[] args)
         {
-            CRUDmanager CRUDmanager = new CRUDmanager();
-            List<TrainSchedule> trainSchedules = new List<TrainSchedule>();
+            CrudOpTrainMaster CRUDmanager = new CrudOpTrainMaster();
+           /* List<TrainSchedule> trainSchedules = new List<TrainSchedule>();
             trainSchedules.Add(new TrainSchedule { TrainRunDays = "sunday" });
-            Train obj1 = new Train
+            Train obj1 = new Train()
             {
                 TrainNo = 12010,
                 TrainName = "Mangla Express",
@@ -19,39 +18,40 @@ namespace TrainMasterHandler
                 ToStation = "panvel",
                 JourneyStartTime = new TimeSpan(2, 30, 00),
                 JourneyEndTime = new TimeSpan(6, 00, 00),
-                trainSchedules = trainSchedules
-            };
+                TrainSchedules = trainSchedules
+            };*/
 
-            CRUDmanager.AddTrains(obj1);
+           // CRUDmanager.AddTrains(obj1);
+          //  CRUDmanager.AllTrainList();
 
-        List<TrainSchedule> trainSchedules2 = new List<TrainSchedule>();
-            trainSchedules2.Add(new TrainSchedule { TrainRunDays = "Sunday" });
+           /* List<TrainSchedule> trainSchedules2 = new List<TrainSchedule>();
             trainSchedules2.Add(new TrainSchedule { TrainRunDays = "Fraiday" });
-        Train obj2 = new Train
-        {
-            TrainNo = 01027,
-            TrainName = "GKP Panvel Exp",
-            FromStation = "GKP",
-            ToStation = "Panvel",
-            JourneyStartTime = new TimeSpan(2, 30, 00),
-            JourneyEndTime = new TimeSpan(6, 00, 00),
-            trainSchedules = trainSchedules2
-        };
-        CRUDmanager.AddTrains(obj2);
+            Train obj2 = new Train
+            {
+                TrainNo = 01027,
+                TrainName = "GKP Panvel Exp",
+                FromStation = "GKP",
+                ToStation = "Panvel",
+                JourneyStartTime = new TimeSpan(2, 30, 00),
+                JourneyEndTime = new TimeSpan(6, 00, 00),
+                TrainSchedules = trainSchedules2
+            };
+            CRUDmanager.AddTrains(obj2);*/
 
-        CRUDmanager.SearchTrain_From_to_station("Bhusawal", "Delhi");
+            CRUDmanager.AllTrainList();
 
-        CRUDmanager.DeleteTrain(01027);
+           // CRUDmanager.SearchTrain_From_to_station("GKP", "Panvel");
 
-        CRUDmanager.SearchTrain_From_to_station("Pune", "Patna");
+           //CRUDmanager.DeleteTrain(01027);
 
-        CRUDmanager.TrainSearchByTarinNumberWithDay(12010);
 
-        CRUDmanager.UpdateTrain(12010, obj1);
+           CRUDmanager.TrainSearchByTarinNumberWithNumber(12010);
 
-        CRUDmanager.TrainSearchByTarinNumberWithDay(12010);
+           // CRUDmanager.UpdateTrain(12010, obj1);
 
-        Console.ReadLine();
+          //  CRUDmanager.TrainSearchByTarinNumberWithDay(12010);
+
+            Console.ReadLine();
         }
     }
 }

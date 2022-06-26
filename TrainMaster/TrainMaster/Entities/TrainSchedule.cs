@@ -14,9 +14,6 @@ namespace TrainMaster.Entities
         public int? TrainNo { get; set; }
         public virtual Train? Train { get; set; }
 
-        public override string ToString()
-        {
-            return "TrainRunOnDays : " + TrainRunDays + " ";
-        }
+
     }
 }
