@@ -140,6 +140,7 @@ namespace OrderAssignmentConsole
                             Console.Write(dataTable.Rows[i][j] + "     ");
                         }
                     }
+                    Console.WriteLine();
                 }
                 else
                     Console.WriteLine("No Data Found...");

@@ -95,7 +95,6 @@ namespace OrderAssignmentConsole
         public void UpdateCustomers()
         {
             string newEmail;
-            updateAgain:
                 Console.WriteLine("Enter the Email");
                 Email = Console.ReadLine();
                 string oldEmail = Email;
@@ -117,16 +116,10 @@ namespace OrderAssignmentConsole
                     }
                 }
                 else
-                {
                     Console.WriteLine("Customer Does not Exist with this Email Address\n Enter The data again");
-                    goto updateAgain;
-                }
             }
             else
-            {
                 Console.WriteLine("Please Enter The Valid Email");
-                goto updateAgain;
-            }
         }
         #endregion
         #region List of All Customer
@@ -153,6 +146,7 @@ namespace OrderAssignmentConsole
                             Console.Write(dt.Rows[i][j] + "       ");
                         }
                     }
+                    Console.WriteLine();
                 }
                 else
                     Console.WriteLine("No Data Found...");
@@ -177,7 +171,7 @@ namespace OrderAssignmentConsole
         public void MailSend(string to, string firstname, string lastname)
         {
             string from = "ytak989@gmail.com";
-            string password = "abcd@655";
+            string password = "jmhxccwbsjppybiz";
             string subject = "Welcome Dear Customer";
             string body = "<h1>Dear, " + firstname + " " + lastname + "</h1> \n Thanks for registering with us";
             try
@@ -219,8 +213,8 @@ namespace OrderAssignmentConsole
             Console.WriteLine("To update Customer   Press :3 ");
             Console.WriteLine("To Show All Customer Press :4 ");
             Console.WriteLine("To Exit              Press :5 ");
-            int choise = Convert.ToInt32(Console.ReadLine());
-            switch (choise)
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
             {
                 case 1:
                     AddCustomers();
