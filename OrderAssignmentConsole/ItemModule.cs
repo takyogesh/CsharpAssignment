@@ -1,45 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderAssignmentConsole
 {
     class ItemModule
     {
+        private static readonly string connectionString = CustomerModule.connectionString;
+        private readonly SqlConnection connection = new SqlConnection(connectionString);
+        private SqlDataAdapter sda;
+        private DataTable dataTable;
         private int? ItemQuantity;
-        private Double? ItemPrice;
+        private int? ItemPrice;
         private string ItemName;
-        private static readonly string _connectionString = @"Data Source=DESKTOP-AMR2CQS\MSSQLSERVER01;Initial Catalog=OrderAssignment;Integrated Security=True";
-        private readonly SqlConnection _connection = new SqlConnection(_connectionString);
-        private SqlDataAdapter sqlDataAdapter;
-        private DataTable getDataItem = new DataTable();
-
         private void AddItem()
         {
             try
             {
                 Console.WriteLine("Enter The Item name ");
                 ItemName = Console.ReadLine();
-
                 Console.WriteLine("Enter The Item Price");
-                ItemPrice = Double.Parse(Console.ReadLine());
+                ItemPrice = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter The Item Quantity");
                 ItemQuantity = Convert.ToInt32(Console.ReadLine());
-                if (ItemQuantity > 0 && ItemPrice > 0 && ItemName != "")
+                if (ItemName != "" && ItemQuantity > 0 && ItemPrice > 0 )
                 {
                     if (!ItemExistOrNot(ItemName))
                     {
                         string sql = "insert into OrderItem values('" + ItemName + "'," + ItemPrice + "," + ItemQuantity + ")";
-                        sqlDataAdapter = new SqlDataAdapter(sql, _connection);
-                        sqlDataAdapter.Fill(getDataItem);
+                        sda = new SqlDataAdapter(sql, connection);
+                        dataTable = new DataTable();
+                        sda.Fill(dataTable);
                         Console.WriteLine("Item Added Successfully");
                     }
                     else
-                        Console.WriteLine("This Item Already Exist  Use Another...");
+                        Console.WriteLine("This Item Already Exist");
                 }
                 else
                     Console.WriteLine(" You Have left an Item As Blank Giave Value That Item");
@@ -64,117 +59,104 @@ namespace OrderAssignmentConsole
                     if (ItemExistOrNot(deleteItemName))
                     {
                         string sql = "delete from OrderItem where ItemName='" + deleteItemName + "'";
-                        sqlDataAdapter = new SqlDataAdapter(sql, _connection);
-                        sqlDataAdapter.Fill(getDataItem);
+                        sda = new SqlDataAdapter(sql, connection);
+                        dataTable = new DataTable();
+                        sda.Fill(dataTable);
                         Console.WriteLine("Item Delete SUccessfully !.");
                     }
                     else
-                    {
-                        Console.WriteLine("Item Does Not Exist in Record ...\n Enter Valid Name");
-                    }
+                        Console.WriteLine("Item Does Not Exist in Record ");
                 }
             }
             catch (Exception ex)
             {
-               Console.WriteLine(ex.ToString());
+               Console.WriteLine(ex.Message);
             }
         }
         private void UpdateItem()
         {
-            getDataItem = null;
-            string updateItemName;
-            try
-            {
                 Console.WriteLine("Enter The Item name That You Want to Update");
-                updateItemName = Console.ReadLine();
-                if (updateItemName == "")
+               string itemName = Console.ReadLine();
+                if (itemName != "")
                 {
-                    Console.WriteLine("Enter the Name It can't Be null");
-                }
-                else
-                {
-                    if (ItemExistOrNot(updateItemName))
+                    if (ItemExistOrNot(itemName))
                     {
-                        string oldtonewname;
-                        double? newPrice;
+                        string newItemName;
+                        int? newPrice;
                         int? NewQuantity;
                         try
                         {
                             Console.WriteLine("Enter the New Name Of Item That you Want to Update");
-                            oldtonewname = Console.ReadLine();
+                            newItemName = Console.ReadLine();
                             Console.WriteLine("Enter the New Price");
-                            newPrice = Convert.ToDouble(Console.ReadLine());
+                            newPrice = Convert.ToInt32(Console.ReadLine());
                             Console.WriteLine("Enter the New Quantity");
                             NewQuantity = Convert.ToInt32(Console.ReadLine());
-                            if (oldtonewname == "" || newPrice == null || NewQuantity == null)
+                            if (newItemName == "" && newPrice == null && NewQuantity == null)
                             {
                                 Console.WriteLine("Enter the correct data");
                             }
                             else
                             {
-                                string sql = "update OrderItem set ItemName='" + oldtonewname + "',ItemPrice=" + newPrice + ",ItemQuantity=" + NewQuantity + " where ItemName='" + updateItemName + "'";
-                                sqlDataAdapter = new SqlDataAdapter(sql, _connection);
-                                sqlDataAdapter.Fill(getDataItem);
+                                string sql = "update OrderItem set ItemName='" + newItemName + "',ItemPrice=" + newPrice + ",ItemQuantity=" + NewQuantity + " where ItemName='" + itemName + "'";
+                                sda = new SqlDataAdapter(sql, connection);
+                                dataTable = new DataTable();
+                                sda.Fill(dataTable);
                                 Console.WriteLine("Item Update Successfully");
                             }
                         }
                         catch (FormatException ex)
                         {
-                            Console.WriteLine(ex.ToString() + "\nPlease Enter The Valid Credentials...");
+                            Console.WriteLine(ex.Message);
                         }
                     }
                     else
                         Console.WriteLine("Item Does Not Exist in Record...");
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                Console.WriteLine("Try Latter ...");
-            }
+                else
+                    Console.WriteLine("Enter the Name It can't Be null");
         }
         private void LisyOfAllItems()
         {
             try
             {
                 string sql = "select * from OrderItem";
-                sqlDataAdapter = new SqlDataAdapter(sql, _connection);
-                sqlDataAdapter.Fill(getDataItem);
-                if (getDataItem.Rows.Count > 0)
+                sda = new SqlDataAdapter(sql, connection);
+                dataTable = new DataTable();
+                sda.Fill(dataTable);
+                if (dataTable.Rows.Count > 0)
                 {
                     //print column
-                    for (int i = 0; i < getDataItem.Columns.Count; i++)
+                    for (int i = 0; i < dataTable.Columns.Count; i++)
                     {
-                        Console.Write(getDataItem.Columns[i].ColumnName + "  ");
+                        Console.Write(dataTable.Columns[i].ColumnName + "  ");
                     }
                     Console.WriteLine();
                     //print the list of all item
-                    for (int i = 0; i < getDataItem.Rows.Count; i++)
+                    for (int i = 0; i < dataTable.Rows.Count; i++)
                     {
-                        for (int j = 0; j < getDataItem.Columns.Count; j++)
+                        for (int j = 0; j < dataTable.Columns.Count; j++)
                         {
-                            Console.Write(getDataItem.Rows[i][j] + "     ");
+                            Console.Write(dataTable.Rows[i][j] + "     ");
                         }
                     }
                 }
                 else
-                {
                     Console.WriteLine("No Data Found...");
-                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            getDataItem = null;
+            dataTable = null;
         }
         private bool ItemExistOrNot(string ItemName)
         {
-            DataTable dataTable = new DataTable();
+            DataTable dt = new DataTable();
             string sql = "select * from OrderItem where ItemName='" + ItemName + "'";
-            SqlDataAdapter adapter = new SqlDataAdapter(sql, _connection);
-            adapter.Fill(dataTable);
-            if (dataTable.Rows.Count > 0)
+            SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
+            adapter.Fill(dt);
+            if (dt.Rows.Count > 0)
                 return true;
             else
                 return false;

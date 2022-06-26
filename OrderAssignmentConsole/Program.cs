@@ -8,13 +8,14 @@ namespace OrderAssignmentConsole
 {
     class Program
     {
-       
         static void Main(string[] args)
         {
             ItemModule item = new ItemModule();
             CustomerModule customer = new CustomerModule();
         Menu:
-            menu();
+            Console.WriteLine(" Manage Item      \t Press :1  ");
+            Console.WriteLine(" Manage Customres \t Press :2  ");
+            Console.WriteLine(" Close App        \t Press :3  ");
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
@@ -29,12 +30,6 @@ namespace OrderAssignmentConsole
                     break;
             }
             Console.Read();
-        }
-        private static void menu()
-        {
-            Console.WriteLine(" Manage Item      Press :1  ");
-            Console.WriteLine(" Manage Customres Press :2  ");
-            Console.WriteLine(" Close App        Press :3  ");
         }
     }
 }
